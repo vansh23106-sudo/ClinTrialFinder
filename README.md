@@ -48,8 +48,8 @@ This section explains how data flows through the application from user input to 
 ┌─────────────────────────────────────────────────────────────┐
 │ 1. USER INTERFACE (Frontend - app.js)                       │
 ├─────────────────────────────────────────────────────────────┤
-│ • User fills form (age, gender, BMI, HbA1c, pregnant, etc) │
-│ • User clicks "Find Matching Trials" button                │
+│ • User fills form (age, gender, BMI, HbA1c, pregnant, etc)  │
+│ • User clicks "Find Matching Trials" button                 │
 │ • Form validation runs                                      │
 │ • JSON payload created with patient data                    │
 └──────────────────────┬──────────────────────────────────────┘
@@ -70,7 +70,7 @@ This section explains how data flows through the application from user input to 
 ├─────────────────────────────────────────────────────────────┤
 │ • get_eligible_trials_from_graph() runs Neo4j query         │
 │ • Filters trials by:                                        │
-│   - Age range constraints (min_age ≤ patient_age ≤ max_age)│
+│   - Age range constraints (min_age ≤ patient_age ≤ max_age) │
 │   - BMI range constraints (if specified)                    │
 │   - HbA1c range constraints (if specified)                  │
 │   - Pregnancy status allowance                              │
@@ -83,13 +83,13 @@ This section explains how data flows through the application from user input to 
 │ 4. SEMANTIC SEARCH - INCLUSION CRITERIA (retrieve_id.py)    │
 ├─────────────────────────────────────────────────────────────┤
 │ • build_query() creates semantic search string:             │
-│   - Combines: age + gender + clinical_context              │
-│   - Example: "45 year old male heart patient diabetes"     │
-│ • Model loads (S-BioBERT) - 30-45s on first request        │
+│   - Combines: age + gender + clinical_context               │
+│   - Example: "45 year old male heart patient diabetes"      │
+│ • Model loads (S-BioBERT) - 30-45s on first request         │
 │ • Query converted to embedding vector (768 dimensions)      │
 │ • FAISS searches faiss_inclusion.index for similar vectors  │
 │ • Returns top ~10,000 trial-criterion matches with scores   │
-│ • Score = semantic similarity (0.0 to 1.0)                 │
+│ • Score = semantic similarity (0.0 to 1.0)                  │
 └──────────────────────┬──────────────────────────────────────┘
                        │ Trial IDs + inclusion scores
                        ↓
@@ -99,7 +99,7 @@ This section explains how data flows through the application from user input to 
 │ • Same query used to search faiss_exclusion.index           │
 │ • Finds trials with exclusion criteria matching patient     │
 │ • Returns scores (higher = more risky to patient)           │
-│ • Trials filtered if exclusion_score too high              │
+│ • Trials filtered if exclusion_score too high               │
 └──────────────────────┬──────────────────────────────────────┘
                        │ Trial IDs + both scores
                        ↓
@@ -123,7 +123,7 @@ This section explains how data flows through the application from user input to 
 │   - Why BMI/HbA1c criteria match                            │
 │   - Why clinical context is relevant                        │
 │   - Similarity score percentage                             │
-│ • Example: "Patient age (45) satisfies trial age (18-65)..." │
+│ • Example: "Patient age (45) satisfies trial age (18-65)..."│
 └──────────────────────┬──────────────────────────────────────┘
                        │ JSON response with trials + explanations
                        ↓
@@ -132,12 +132,12 @@ This section explains how data flows through the application from user input to 
 ├─────────────────────────────────────────────────────────────┤
 │ Returns JSON:                                               │
 │ {                                                           │
-│   "top_trial": { nct_id, inclusion_score, exclusion_score },
+│   "top_trial": { nct_id, inclusion_score, exclusion_score },| 
 │   "explanation": "Human readable text...",                  │
-│   "other_trials": [ {...}, {...}, {...} ]                  │
+│   "other_trials": [ {...}, {...}, {...} ]                   │
 │ }                                                           │
 │ • Response sent back to frontend                            │
-│ • Execution time: 2-5 seconds (after model cached)         │
+│ • Execution time: 2-5 seconds (after model cached)          │
 └──────────────────────┬──────────────────────────────────────┘
                        │ JSON with results
                        ↓
@@ -151,7 +151,7 @@ This section explains how data flows through the application from user input to 
 │   - Green match score badge                                 │
 │   - Inclusion/exclusion percentages                         │
 │   - Recommendation text (for top match)                     │
-│ • Updates results counter ("10 trials matched")            │
+│ • Updates results counter ("10 trials matched")             │
 │ • Displays loading spinner during request                   │
 │ • Error handling for failed requests                        │
 └──────────────────────┬──────────────────────────────────────┘
@@ -163,7 +163,7 @@ This section explains how data flows through the application from user input to 
 │ • User sees trial results displayed in right panel          │
 │ • User clicks NCT ID link → Opens ClinicalTrials.gov        │
 │ • User scrolls to see more trials                           │
-│ • User can click "Clear Form" → Reset for new query        │
+│ • User can click "Clear Form" → Reset for new query         │
 └─────────────────────────────────────────────────────────────┘
 ```
 
