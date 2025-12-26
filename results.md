@@ -37,7 +37,7 @@ The right panel displays matching trial results with:
 
 ### Screenshot
 
-![Clinical Trials Matcher UI - Two Column Layout with Form and Results Panel](./screenshots/Screenshot clinical project_ui.png)
+![Clinical Trials Matcher UI - Two Column Layout with Form and Results Panel](./screenshots/Screenshot%20clinical%20project_ui.png)
 
 *The application features a modern responsive two-column layout with purple gradient background. Left panel shows patient information form with fields for API URL, Age, Gender, BMI, HbA1c, Pregnancy Status, and Clinical Context. Right panel displays matching trial results with a counter badge showing number of matches.*
 
@@ -68,7 +68,7 @@ A typical patient query includes:
 
 ### Screenshot
 
-![Clinical Trials Matcher - Sample Patient Input Form](./screenshots/Screenshot clinical project_input.png)
+![Clinical Trials Matcher - Sample Patient Input Form](./screenshots/Screenshot%20clinical%20project_input.png)
 
 *Example patient profile filled in the form:*
 - *Age: 66 years*
@@ -87,8 +87,8 @@ The application matches patients with eligible clinical trials and displays them
 
 ### First Output Screenshot
 
-![Clinical Trials Matcher - Results Output with Top Match and Additional Trials](./screenshots/Screenshot clinical project_1.png)
+![Clinical Trials Matcher - Results Output with Top Match and Additional Trials](./screenshots/Screenshot%20clinical%20project_1.png)
 
 ### Second Output Screenshot
 
-![Clinical Trials Matcher - Extended Results List Continuation](./screenshots/Screenshot clinical project_2.png)
+![Clinical Trials Matcher - Extended Results List Continuation](./screenshots/Screenshot%20clinical%20project_2.png)
