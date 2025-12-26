@@ -1,0 +1,106 @@
+"""
+Utility: Split and Clean Inclusion / Exclusion Criteria
+
+Fixes:
+- Removes Excel 'Unnamed' columns
+- Removes section headers
+- Cleans bullets and numbering
+"""
+
+from pathlib import Path
+import pandas as pd
+import re
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+INPUT_PATH = BASE_DIR / "data" / "t2d_trials_api_structured.csv"
+OUTPUT_PATH = BASE_DIR / "data" / "t2d_trials_with_incl_excl.csv"
+
+
+def normalize_text(text: str) -> str:
+    if not isinstance(text, str):
+        return ""
+    text = text.replace("\r", " ").replace("\n", " ")
+    text = re.sub(r"\s+", " ", text)
+    return text.strip()
+
+
+def clean_section(text: str) -> str:
+    """
+    Removes headers, bullets, numbering.
+    """
+    text = text.lower()
+
+    # remove section headers
+    text = re.sub(r"inclusion criteria\s*:?", "", text)
+    text = re.sub(r"exclusion criteria\s*:?", "", text)
+
+    # remove bullets / numbering
+    #text = re.sub(r"[\*\-•]", " ", text)
+    #text = re.sub(r"\b(\d+)\.\s+", " ", text)
+
+    #text = re.sub(r"\s+", " ", text)
+    return text.strip()
+
+
+def split_inclusion_exclusion(text: str):
+    text = normalize_text(text)
+    lower = text.lower()
+
+    incl_idx = lower.find("inclusion criteria")
+    excl_idx = lower.find("exclusion criteria")
+
+    if incl_idx != -1 and excl_idx != -1:
+        if incl_idx < excl_idx:
+            inclusion = text[incl_idx:excl_idx]
+            exclusion = text[excl_idx:]
+        else:
+            inclusion = text
+            exclusion = ""
+    else:
+        inclusion = text
+        exclusion = ""
+
+    return clean_section(inclusion), clean_section(exclusion)
+
+
+def main():
+    if not INPUT_PATH.exists():
+        raise FileNotFoundError(f"Input file not found: {INPUT_PATH}")
+
+    df = pd.read_csv(INPUT_PATH)
+
+    # normalize column names
+    df.columns = (
+        df.columns
+        .str.lower()
+        .str.strip()
+        .str.replace(" ", "_")
+    )
+
+    #  REMOVE EXCEL GARBAGE COLUMNS
+    df = df.loc[:, ~df.columns.str.startswith("unnamed")]
+
+    if "eligibility_criteria" not in df.columns:
+        raise ValueError("Column 'eligibility_criteria' not found")
+
+    incl, excl = [], []
+
+    for text in df["eligibility_criteria"]:
+        i, e = split_inclusion_exclusion(text)
+        incl.append(i)
+        excl.append(e)
+
+    df["inclusion_criteria"] = incl
+    df["exclusion_criteria"] = excl
+
+    df.to_csv(OUTPUT_PATH, index=False)
+
+    print("Inclusion / Exclusion split completed")
+    print(f" Clean file saved to: {OUTPUT_PATH}")
+    print("\nSample:")
+    print(df[["inclusion_criteria", "exclusion_criteria"]].head(2))
+
+
+if __name__ == "__main__":
+    main()
