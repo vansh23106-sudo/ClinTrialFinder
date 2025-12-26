@@ -183,16 +183,6 @@ Then open in your browser: `http://localhost:8001/index.html`
 - **Neo4j**: Connection pooling recommended for production
 - **FAISS**: Optimized for semantic similarity at scale
 
-## Future Improvements
-
-- [ ] Implement model/index caching at startup
-- [ ] Add pagination for large result sets
-- [ ] Support for more clinical parameters
-- [ ] Integration with real clinical trial databases (ClinicalTrials.gov)
-- [ ] Mobile app (React Native or Flutter)
-- [ ] Advanced filtering UI
-- [ ] Result export (PDF, CSV)
-
 ## Security Notes
 
 ⚠️ **Important**: 
@@ -202,23 +192,9 @@ Then open in your browser: `http://localhost:8001/index.html`
 - Implement authentication/authorization for production deployments
 - Keep sensitive patient data encrypted
 
-## Contributing
-
-Contributions are welcome! Please:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/your-feature`)
-3. Commit changes (`git commit -m 'Add your feature'`)
-4. Push to branch (`git push origin feature/your-feature`)
-5. Open a Pull Request
-
 ## License
 
 This project is licensed under the MIT License — see LICENSE file for details.
-
-## Support
-
-For issues, questions, or feedback, please open an issue on GitHub or contact the maintainers.
 
 ## Authors
 
